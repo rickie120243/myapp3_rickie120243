@@ -1,0 +1,25 @@
+{
+  "name": "ksana2015-scaffold-reflux",
+  "description": "New reflux application",
+  "version": "0.0.1",
+  "main": "index.html",
+  "inject-js-start": "nwmain.js",
+  "single-instance": true,
+  "window": {
+    "toolbar": true,
+    "width": 1060,
+    "height": 700
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rickie120243/myapp3_rickie120243.git"
+  },
+  "gitHead": "5b2a2f9ba67a84576b7d07099df6b5772d720d77",
+  "readme": "scaffold for ksana2015 app\r\n====\r\n\r\ninstall github.com/ksanaforge/ksana2015\r\n\r\nks mkdb sample\r\n\r\nreact-bundle.js is created with \r\n\r\n    browserify -r react -r react/addons > react-bundle.js",
+  "readmeFilename": "README.md",
+  "_id": "ksana2015-scaffold-reflux@0.0.1",
+  "_shasum": "314550d04c2ddcd009938a5d1c334ea5e20fccfe",
+  "_from": "git+https://github.com/ksanaforge/ksana2015-scaffold-reflux.git",
+  "_resolved": "git+https://github.com/ksanaforge/ksana2015-scaffold-reflux.git#5b2a2f9ba67a84576b7d07099df6b5772d720d77"
+}
