@@ -11,8 +11,10 @@ var store=Reflux.createStore({
 		this.data.push({name:item,done:false});
 		this.trigger(this.data);
 	}
-	,onClear:function() {
-		this.data=[];
+	,onClearDone:function() {
+		this.data=this.data.filter(function(item){
+			return !item.done;
+		});
 		this.trigger(this.data);
 	}
 });

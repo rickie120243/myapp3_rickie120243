@@ -6,10 +6,10 @@ var TaskInput=require("./taskinput");
 var Maincomponent = React.createClass({
   render: function() {
     return <div>
-    	<TaskInput/>
-      <Controls/>
-      <TaskView/>
-       </div>;
+    <TaskInput/>
+    <Controls/>
+    <TaskView/>
+    </div>;
   }
 });
 module.exports=Maincomponent;

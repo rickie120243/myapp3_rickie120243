@@ -12,7 +12,7 @@ ksanagap.boot("myapp3_rickie120243",function(){
 var Reflux=require("reflux");
 var actions=Reflux.createActions([
 	"add"
-	,"clear"
+	,"clearDone"
 	,"toggle"
 ]);
 module.exports=actions;
@@ -20,22 +20,39 @@ module.exports=actions;
 var React=require("react");
 var actions=require("./actions");
 var Controls=React.createClass({displayName: "Controls",
-  	add:function() {
-		actions.add(Math.random().toString().substr(2,5));
-	}
-	,clear:function() {
-		actions.clear();
+  	clearDone:function() {
+		actions.clearDone();
 	}
 	,render:function() {
 		return React.createElement("div", null, 
-      		React.createElement("button", {onClick: this.add}, "Add"), 
-      		React.createElement("button", {onClick: this.clear}, "Clear")
+      		React.createElement("button", {onClick: this.clearDone}, "Clear Done")
       	)
 	}
 });
 
 module.exports=Controls;
-},{"./actions":"D:\\ksana2015\\myapp3_rickie120243\\src\\actions.js","react":"react"}],"D:\\ksana2015\\myapp3_rickie120243\\src\\main.jsx":[function(require,module,exports){
+},{"./actions":"D:\\ksana2015\\myapp3_rickie120243\\src\\actions.js","react":"react"}],"D:\\ksana2015\\myapp3_rickie120243\\src\\itemleft.js":[function(require,module,exports){
+var React=require("react");
+var ItemLeft=React.createClass({displayName: "ItemLeft",
+  	itemleft:function(tasks){
+		var i=tasks.filter(function(task){
+			return !task.done;
+		}).length;
+		var x="";
+		if(i>1) x="s";
+		return React.createElement("div", null, i, "  item", x);
+
+
+   	},render:function() {
+   		var arr=[];
+		return React.createElement("div", null, 
+      		this.itemleft(this.props.obj)
+      	);
+	}
+});
+
+module.exports=ItemLeft;
+},{"react":"react"}],"D:\\ksana2015\\myapp3_rickie120243\\src\\main.jsx":[function(require,module,exports){
 var React=require("react");
 var Controls=require("./controls.jsx");
 var TaskView=require("./taskview");
@@ -44,10 +61,10 @@ var TaskInput=require("./taskinput");
 var Maincomponent = React.createClass({displayName: "Maincomponent",
   render: function() {
     return React.createElement("div", null, 
-    	React.createElement(TaskInput, null), 
-      React.createElement(Controls, null), 
-      React.createElement(TaskView, null)
-       );
+    React.createElement(TaskInput, null), 
+    React.createElement(Controls, null), 
+    React.createElement(TaskView, null)
+    );
   }
 });
 module.exports=Maincomponent;
@@ -65,8 +82,10 @@ var store=Reflux.createStore({
 		this.data.push({name:item,done:false});
 		this.trigger(this.data);
 	}
-	,onClear:function() {
-		this.data=[];
+	,onClearDone:function() {
+		this.data=this.data.filter(function(item){
+			return !item.done;
+		});
 		this.trigger(this.data);
 	}
 });
@@ -74,28 +93,27 @@ var store=Reflux.createStore({
 module.exports=store;
 },{"./actions":"D:\\ksana2015\\myapp3_rickie120243\\src\\actions.js","reflux":"D:\\ksana2015\\node_modules\\reflux\\index.js"}],"D:\\ksana2015\\myapp3_rickie120243\\src\\taskinput.js":[function(require,module,exports){
 var React=require("react");
-var Reflux=require("reflux");
-var store=require("./store");
-var Action=require("./actions");
-
-var TaskInput = React.createClass({displayName: "TaskInput",
-	keypress:function(e){
-		if(e.key=="Enter"){
-			Action.add(e.target.value);
-			e.target.value="";
-		}
-	}
-	,render: function() {
+var actions=require("./actions");
+var TaskInput=React.createClass({displayName: "TaskInput",
+  	onkeypress:function(e){
+  		if(e.key=="Enter"&&e.target.value!=""){
+ 			 actions.add(e.target.value);
+ 			 e.target.value="";
+      }
+  	}
+  	,render:function() {
 		return React.createElement("div", null, 
-			React.createElement("input", {onKeyPress: this.keypress})
-		);
+      		React.createElement("input", {onKeyPress: this.onkeypress})
+      	)
 	}
 });
-module.exports=TaskInput
-},{"./actions":"D:\\ksana2015\\myapp3_rickie120243\\src\\actions.js","./store":"D:\\ksana2015\\myapp3_rickie120243\\src\\store.js","react":"react","reflux":"D:\\ksana2015\\node_modules\\reflux\\index.js"}],"D:\\ksana2015\\myapp3_rickie120243\\src\\taskview.js":[function(require,module,exports){
+
+module.exports=TaskInput;
+},{"./actions":"D:\\ksana2015\\myapp3_rickie120243\\src\\actions.js","react":"react"}],"D:\\ksana2015\\myapp3_rickie120243\\src\\taskview.js":[function(require,module,exports){
 var React=require("react");
 var Reflux=require("reflux");
 var store=require("./store");
+var ItemLeft=require("./itemleft");
 var actions=require("./actions");
 
 var TaskView = React.createClass({displayName: "TaskView",
@@ -110,19 +128,19 @@ var TaskView = React.createClass({displayName: "TaskView",
 		var idx=e.target.dataset.idx;
 		actions.toggle(idx);
 	}
-	,renderItem:function(task,idx) {
-		var done=task.done?"done":"";
+	,renderItem:function(item,idx) {
+		var done=item.done?"done":"";
 		return React.createElement("div", {className: done, "data-idx": idx, 
-		onClick: this.toggle}, task.name)
+		onClick: this.toggle}, item.name)
 	}
 	,render: function() {
-		return React.createElement("div", null, 
+		return React.createElement("div", null, React.createElement(ItemLeft, {obj: this.state.data}), 
 			this.state.data.map(this.renderItem)
 		);
 	}
 });
 module.exports=TaskView
-},{"./actions":"D:\\ksana2015\\myapp3_rickie120243\\src\\actions.js","./store":"D:\\ksana2015\\myapp3_rickie120243\\src\\store.js","react":"react","reflux":"D:\\ksana2015\\node_modules\\reflux\\index.js"}],"D:\\ksana2015\\node_modules\\ksana2015-webruntime\\downloader.js":[function(require,module,exports){
+},{"./actions":"D:\\ksana2015\\myapp3_rickie120243\\src\\actions.js","./itemleft":"D:\\ksana2015\\myapp3_rickie120243\\src\\itemleft.js","./store":"D:\\ksana2015\\myapp3_rickie120243\\src\\store.js","react":"react","reflux":"D:\\ksana2015\\node_modules\\reflux\\index.js"}],"D:\\ksana2015\\node_modules\\ksana2015-webruntime\\downloader.js":[function(require,module,exports){
 
 var userCancel=false;
 var files=[];

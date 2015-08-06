@@ -1,6 +1,7 @@
 var React=require("react");
 var Reflux=require("reflux");
 var store=require("./store");
+var ItemLeft=require("./itemleft");
 var actions=require("./actions");
 
 var TaskView = React.createClass({
@@ -15,13 +16,13 @@ var TaskView = React.createClass({
 		var idx=e.target.dataset.idx;
 		actions.toggle(idx);
 	}
-	,renderItem:function(task,idx) {
-		var done=task.done?"done":"";
-		return <div className={done} data-idx={idx}
-		onClick={this.toggle}>{task.name}</div>
+	,renderItem:function(item,idx) {
+		var done=item.done?"done":"";
+		return <div className={done} data-idx={idx} 
+		onClick={this.toggle}>{item.name}</div>
 	}
 	,render: function() {
-		return <div>
+		return <div><ItemLeft obj={this.state.data}/>
 			{this.state.data.map(this.renderItem)}
 		</div>;
 	}

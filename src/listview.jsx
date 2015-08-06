@@ -11,7 +11,7 @@ var Listview = React.createClass({
 		this.setState({data:data});
 	}
 	,renderItem:function(item,idx) {
-		return <div>{idx}.{item}</div>
+		return <div>{item}</div>
 	}
 	,render: function() {
 		return <div>

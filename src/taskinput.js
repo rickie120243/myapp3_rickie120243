@@ -1,19 +1,17 @@
 var React=require("react");
-var Reflux=require("reflux");
-var store=require("./store");
-var Action=require("./actions");
-
-var TaskInput = React.createClass({
-	keypress:function(e){
-		if(e.key=="Enter"){
-			Action.add(e.target.value);
-			e.target.value="";
-		}
-	}
-	,render: function() {
+var actions=require("./actions");
+var TaskInput=React.createClass({
+  	onkeypress:function(e){
+  		if(e.key=="Enter"&&e.target.value!=""){
+ 			 actions.add(e.target.value);
+ 			 e.target.value="";
+      }
+  	}
+  	,render:function() {
 		return <div>
-			<input onKeyPress={this.keypress}/>
-		</div>;
+      		<input onKeyPress={this.onkeypress}/>
+      	</div>
 	}
 });
-module.exports=TaskInput
+
+module.exports=TaskInput;
