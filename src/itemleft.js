@@ -4,11 +4,11 @@ var ItemLeft=React.createClass({
 		var i=tasks.filter(function(task){
 			return !task.done;
 		}).length;
-		var x="";
-		if(i>1) x="s";
-		return <div>{i}  item{x}</div>;
-
-
+		var x="",y="is";
+		if(i>1) {
+			x="s",y="are";
+		}
+		return <div>There {y} {i} item{x}</div>;
    	},render:function() {
    		var arr=[];
 		return <div>

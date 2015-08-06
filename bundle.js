@@ -38,11 +38,11 @@ var ItemLeft=React.createClass({displayName: "ItemLeft",
 		var i=tasks.filter(function(task){
 			return !task.done;
 		}).length;
-		var x="";
-		if(i>1) x="s";
-		return React.createElement("div", null, i, "  item", x);
-
-
+		var x="",y="is";
+		if(i>1) {
+			x="s",y="are";
+		}
+		return React.createElement("div", null, "There ", y, " ", i, " item", x);
    	},render:function() {
    		var arr=[];
 		return React.createElement("div", null, 
